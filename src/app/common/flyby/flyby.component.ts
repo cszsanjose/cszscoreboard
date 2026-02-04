@@ -1,34 +1,31 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-flyby',
-  templateUrl: './flyby.component.html',
-  styleUrls: ['./flyby.component.scss'],
-  host: {
-    class: 'fullscreen',
-    style: 'z-index: 10000'
-  }
+    selector: 'app-flyby',
+    templateUrl: './flyby.component.html',
+    styleUrls: ['./flyby.component.scss'],
+    host: {
+        class: 'fullscreen',
+        style: 'z-index: 10000'
+    }
 })
 export class FlybyComponent {
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+
   private readonly animationDuration = 2000
 
-  @Input() direction: 'left' | 'right' = 'left'
+  readonly direction = input<'left' | 'right'>('left');
 
-  @ViewChild('content') private content?: ElementRef<HTMLDivElement>
-
-  constructor(
-    private readonly el: ElementRef<HTMLElement>
-  ) {
-  }
+  private readonly content = viewChild<ElementRef<HTMLDivElement>>('content');
 
   fly(): void {
-    const content = this.content!.nativeElement
+    const content = this.content()!.nativeElement
     const contentRect = content.getBoundingClientRect()
     const parent = this.el.nativeElement
     const parentRect = parent.getBoundingClientRect()
     const keyframes: Keyframe[] = []
 
-    if (this.direction === 'left') {
+    if (this.direction() === 'left') {
       keyframes.push(
         {
           visibility: 'visible',

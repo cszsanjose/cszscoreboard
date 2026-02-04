@@ -1,43 +1,45 @@
-<app-flyby #teamFlyby *ngIf="!match.profile.disableTeamFlyby" [direction]="teamDirection">
-  <ng-container *ngIf="match.winningTeam as $team; else tiedScore">
-    <img *ngIf="$team.hasLogo; else teamName" class="team-name" [src]="$team.logoPath" [alt]="$team.name">
-    <ng-template #teamName>
-      <div class="team-name team-{{$team.type}}">{{$team.name}}</div>
-    </ng-template>
-  </ng-container>
-  <ng-template #tiedScore>
-    <div class="team-name">Tied Score!!!</div>
-  </ng-template>
-</app-flyby>
+@if (!match.profile.disableTeamFlyby) {
+  <app-flyby #teamFlyby [direction]="teamDirection">
+    @if (match.winningTeam; as $team) {
+      @if ($team.hasLogo) {
+        <img class="team-name" [src]="$team.logoPath" [alt]="$team.name">
+      } @else {
+        <div class="team-name team-{{$team.type}}">{{$team.name}}</div>
+      }
+    } @else {
+      <div class="team-name">Tied Score!!!</div>
+    }
+  </app-flyby>
+}
 
-<app-live-scoreboard
-  class="view"
+<app-live-scoreboard class="view"
   [class.active]="showScore"
-></app-live-scoreboard>
+ />
 
-<app-live-slate
-  class="view"
+<app-live-slate class="view"
   [class.active]="showSlate"
-></app-live-slate>
+ />
 
-<app-live-guesses
-  *ngIf="match.guesses.game"
-  class="view"
-  [class.active]="showGuesses"
-></app-live-guesses>
+@if (match.guesses.game) {
+  <app-live-guesses class="view"
+    [class.active]="showGuesses"
+   />
+}
 
-<app-live-themes
-  *ngIf="match.themeSlides.enabled"
-  class="view"
-  [class.active]="showThemes"
-></app-live-themes>
+@if (match.themeSlides.enabled) {
+  <app-live-themes class="view"
+    [class.active]="showThemes"
+   />
+}
 
 <!--
 FULL-SCREEN BUTTON
 -->
-<button *ngIf="fullScreen.canEnter"
-        class="fullscreen-button btn text-light"
-        (click)="enterFullScreen()"
->
-  <i class="bi-fullscreen"></i>&nbsp;&nbsp;Double-Click
-</button>
+@if (fullScreen.canEnter) {
+  <button
+    class="fullscreen-button btn text-light"
+    (click)="enterFullScreen()"
+    >
+    <i class="bi-fullscreen"></i>&nbsp;&nbsp;Double-Click
+  </button>
+}

@@ -1,14 +1,11 @@
-import {Directive, ElementRef, Input} from '@angular/core';
+import { Directive, ElementRef, Input, inject } from '@angular/core';
 import {ThemeSlideConfig} from "../config/theme-slide-config";
 import {ThemeSlides} from "../config/theme-slides";
 
-@Directive({
-  selector: '[themeSlideBackground]'
-})
+@Directive({ selector: '[themeSlideBackground]' })
 export class ThemeSlideBackgroundDirective {
-  constructor(
-    private readonly el: ElementRef
-  ) { }
+  private readonly el = inject(ElementRef);
+
 
   @Input('themeSlideBackground')
   set config(config: ThemeSlideConfig) {

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, DoCheck, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, DoCheck, HostListener, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import {Match} from "../../config/match";
 import {FullScreenTargetDirective} from "../../full-screen-target.directive";
 import {asyncScheduler, Subscription} from "rxjs";
@@ -6,31 +6,33 @@ import {Title} from "@angular/platform-browser";
 import {FlybyComponent} from "../../common/flyby/flyby.component";
 import {HeartbeatService} from "../../common/heartbeat.service";
 import {GuessingService} from "../../common/guessing.service";
+import { LiveScoreboardComponent } from '../live-scoreboard/live-scoreboard.component';
+import { LiveSlateComponent } from '../live-slate/live-slate.component';
+import { LiveGuessesComponent } from '../live-guesses/live-guesses.component';
+import { LiveThemesComponent } from '../live-themes/live-themes.component';
 
 @Component({
-  selector: 'app-live-view',
-  templateUrl: './live-view.component.html',
-  styleUrls: ['./live-view.component.scss'],
-  hostDirectives: [FullScreenTargetDirective],
-  host: {
-    class: 'position-relative'
-  }
+    selector: 'app-live-view',
+    templateUrl: './live-view.component.html',
+    styleUrls: ['./live-view.component.scss'],
+    hostDirectives: [FullScreenTargetDirective],
+    host: {
+        class: 'position-relative'
+    },
+    imports: [FlybyComponent, LiveScoreboardComponent, LiveSlateComponent, LiveGuessesComponent, LiveThemesComponent]
 })
 export class LiveViewComponent implements OnInit, OnDestroy, DoCheck {
+  readonly match = inject(Match);
+  readonly fullScreen = inject(FullScreenTargetDirective);
+  private readonly title = inject(Title);
+  private readonly heartbeat = inject(HeartbeatService);
+  private readonly guessing = inject(GuessingService);
+  private readonly changeRef = inject(ChangeDetectorRef);
+
   private timer?: Subscription
   private showingScore = false
 
-  @ViewChild('teamFlyby') teamFlyby?: FlybyComponent
-
-  constructor(
-    readonly match: Match,
-    readonly fullScreen: FullScreenTargetDirective,
-    private readonly title: Title,
-    private readonly heartbeat: HeartbeatService,
-    private readonly guessing: GuessingService,
-    private readonly changeRef: ChangeDetectorRef
-  ) {
-  }
+  readonly teamFlyby = viewChild<FlybyComponent>('teamFlyby');
 
   ngOnInit() {
     this.title.setTitle('TV - ComedySports Scoreboard')
@@ -49,7 +51,7 @@ export class LiveViewComponent implements OnInit, OnDestroy, DoCheck {
     if (this.match.activeView === 'scoreboard') {
       if (!this.showingScore) {
         this.showingScore = true
-        if (this.match.hasScore) this.teamFlyby?.fly()
+        if (this.match.hasScore) this.teamFlyby()?.fly()
       }
     } else if (this.showingScore) {
       this.showingScore = false

@@ -1,6 +1,6 @@
 <div>
   <label class="form-label">Logo</label>
-  <app-icon-selector [icons]="profiles.logos" [(selectedIcon)]="profileLogo"></app-icon-selector>
+  <app-icon-selector [icons]="profiles.logos" [(selectedIcon)]="profileLogo" />
 </div>
 
 <div class="d-none">
@@ -11,7 +11,7 @@
     [(ngModel)]="match.social"
     placeholder="(FB)(IG) @account (TW) @account"
     title="Enter text as you want it shown. Use (FB), (IG) and (TW) for social logos."
-  >
+    >
 </div>
 
 <div class="form-check">
@@ -29,9 +29,11 @@
 </div>
 
 <div class="d-flex-column gap-1">
-  <button class="btn btn-primary form-control" (click)="save()" *ngIf="!match.profile.builtin">
-    Save
-  </button>
+  @if (!match.profile.builtin) {
+    <button class="btn btn-primary form-control" (click)="save()">
+      Save
+    </button>
+  }
   <button class="btn btn-success form-control" (click)="saveAs()">
     Save As...
   </button>

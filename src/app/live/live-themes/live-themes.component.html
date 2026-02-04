@@ -5,11 +5,13 @@
     {{themeConfig.title}}
   </div>
   <div class="flex-fill"></div>
-  <div *ngIf="movie" class="theme-movie py-5 d-flex-row fs-3 align-items-center" [ngStyle]="movieStyle">
-    <colored-image src="assets/themes/csz_sanjose_logo.svg" width="var(--size-20)" height="var(--size-10)"
-                   [color]="theme.title.color"></colored-image>
-    <div>&copy; DIF PICTURES CORPORATION  MMXXIII</div>
-    <colored-image src="assets/themes/mpaa.png" width="var(--size-20)" height="var(--size-10)"
-                   [color]="theme.title.color"></colored-image>
-  </div>
+  @if (movie) {
+    <div class="theme-movie py-5 d-flex-row fs-3 align-items-center" [ngStyle]="movieStyle">
+      <colored-image src="assets/themes/csz_sanjose_logo.svg" width="var(--size-20)" height="var(--size-10)"
+      [color]="theme.title.color" />
+      <div>&copy; DIF PICTURES CORPORATION  MMXXIII</div>
+      <colored-image src="assets/themes/mpaa.png" width="var(--size-20)" height="var(--size-10)"
+      [color]="theme.title.color" />
+    </div>
+  }
 </div>

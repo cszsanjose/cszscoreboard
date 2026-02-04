@@ -1,7 +1,12 @@
-import {Component} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {Match} from "../../config/match";
 import {Cache} from "../../config/cache";
 import {PlatformService} from "../../common/platform.service";
+import { NgClass, TitleCasePipe } from '@angular/common';
+import { MatchEditorComponent } from '../match-editor/match-editor.component';
+import { GuessEditorComponent } from '../guess-editor/guess-editor.component';
+import { ThemeSlideEditorComponent } from '../theme-slide-editor/theme-slide-editor.component';
+import { OptionalTeamEditorComponent } from '../optional-team-editor/optional-team-editor.component';
 
 type TabName = 'guesses' | 'settings' | 'optional' | 'themes'
 
@@ -55,14 +60,18 @@ class TabDef {
 }
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-  host: {
-    class: 'position-relative h-100'
-  }
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    host: {
+        class: 'position-relative h-100'
+    },
+    imports: [NgClass, MatchEditorComponent, GuessEditorComponent, ThemeSlideEditorComponent, OptionalTeamEditorComponent, TitleCasePipe]
 })
 export class SidebarComponent {
+  readonly match = inject(Match);
+  readonly platform = inject(PlatformService);
+
   readonly helpLink = 'https://docs.google.com/document/d/13iQDgkSyzAIu081jAqJ1sTHh7XaiV4Ny3FXpckTTWuo/edit?usp=sharing'
 
   readonly tabs: TabDef[] = [
@@ -76,10 +85,7 @@ export class SidebarComponent {
 
   selectedTab?: TabName
 
-  constructor(
-    readonly match: Match,
-    readonly platform: PlatformService
-  ) {
+  constructor() {
     if (this.firstRun) {
       // Open to settings by default
       this.selectedTab = 'settings'

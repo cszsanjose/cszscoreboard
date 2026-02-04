@@ -1,23 +1,21 @@
-import {Directive, ElementRef, Input} from '@angular/core';
+import { Directive, ElementRef, Input, inject } from '@angular/core';
 import {ButtonGroupComponent} from "./button-group.component";
 import {Subscription} from "rxjs";
 
-@Directive({
-  selector: '[buttonGroupItem]'
-})
+@Directive({ selector: '[buttonGroupItem]' })
 export class ButtonGroupItemDirective {
-  _value: any
-  selectionChanged: Subscription
+  readonly el = inject(ElementRef);
+  readonly buttonGroup = inject(ButtonGroupComponent);
 
-  constructor(
-    readonly el: ElementRef,
-    readonly buttonGroup: ButtonGroupComponent
-  ) {
+  _value: any
+
+  constructor() {
+    const el = this.el;
+    const buttonGroup = this.buttonGroup;
+
     el.nativeElement.classList.add('button-group-item')
 
-    this.selectionChanged = buttonGroup.selectedValueChange.subscribe({
-      next: (_value: any) => this.toggle()
-    })
+    buttonGroup.selectedValueChange.subscribe((_value: any) => this.toggle())
 
     el.nativeElement.addEventListener('click', () => {
       buttonGroup.clicked(this.value)

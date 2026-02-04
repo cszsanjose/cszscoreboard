@@ -1,17 +1,13 @@
-import {Directive, ElementRef, Input} from '@angular/core';
+import { Directive, ElementRef, Input, inject } from '@angular/core';
 import {ThemeSlideConfig} from "../config/theme-slide-config";
 import {ThemeSlides} from "../config/theme-slides";
 
-@Directive({
-  selector: '[themeSlideTitle]'
-})
+@Directive({ selector: '[themeSlideTitle]' })
 export class ThemeSlideTitleDirective {
+  private readonly el = inject<ElementRef<HTMLDivElement>>(ElementRef);
+
   private config?: ThemeSlideConfig
   private slide = false
-
-  constructor(
-    private readonly el: ElementRef<HTMLDivElement>
-  ) { }
 
   @Input('themeSlideTitle')
   set slideConfig(config: ThemeSlideConfig) {

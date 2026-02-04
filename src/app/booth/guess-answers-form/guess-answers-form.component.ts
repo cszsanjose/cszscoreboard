@@ -1,25 +1,23 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, input } from '@angular/core';
 import {Guess} from "../../config/guessing-game";
 import {GuessAnswers} from "../../config/guess-answers";
-import {FormArray, FormControl} from "@angular/forms";
+import { FormArray, FormControl, ReactiveFormsModule, FormsModule } from "@angular/forms";
 import {GuessingService} from "../../common/guessing.service";
 import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-guess-answers-form',
-  templateUrl: './guess-answers-form.component.html'
+    selector: 'app-guess-answers-form',
+    templateUrl: './guess-answers-form.component.html',
+    imports: [ReactiveFormsModule, FormsModule]
 })
 export class GuessAnswersFormComponent implements OnInit, OnDestroy {
-  @Input() guesses!: Guess[]
-  @Input() answers!: GuessAnswers
+  private readonly guessing = inject(GuessingService);
+
+  readonly guesses = input.required<Guess[]>();
+  readonly answers = input.required<GuessAnswers>();
 
   readonly form = new FormArray<FormControl<string | null>>([])
   private changeSubscription?: Subscription
-
-  constructor(
-    private readonly guessing: GuessingService
-  ) {
-  }
 
   ngOnInit() {
     this.initForm()
@@ -34,8 +32,8 @@ export class GuessAnswersFormComponent implements OnInit, OnDestroy {
     delete this.changeSubscription
 
     this.form.clear({emitEvent: false})
-    this.answers.value.forEach(value => this.addGuess(value))
-    this.setGuessCount(this.answers.used + 1)
+    this.answers().value.forEach(value => this.addGuess(value))
+    this.setGuessCount(this.answers().used + 1)
 
     this.changeSubscription = this.form.valueChanges.subscribe(values => this.onValueChange(values))
   }
@@ -55,10 +53,10 @@ export class GuessAnswersFormComponent implements OnInit, OnDestroy {
 
   private onValueChange(values: (string | null)[]) {
     values.forEach((val, index) => {
-      this.answers.set(index, val || '')
+      this.answers().set(index, val || '')
     })
 
-    this.setGuessCount(this.answers.count + 1)
+    this.setGuessCount(this.answers().count + 1)
   }
 
   private setGuessCount(count: number) {

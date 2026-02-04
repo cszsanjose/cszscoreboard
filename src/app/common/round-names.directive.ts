@@ -1,13 +1,11 @@
-import {Directive, ElementRef, Renderer2} from '@angular/core';
+import { Directive, ElementRef, Renderer2, inject } from '@angular/core';
 
-@Directive({
-  selector: '[roundNames]'
-})
+@Directive({ selector: '[roundNames]' })
 export class RoundNamesDirective {
-  constructor(
-    private readonly el: ElementRef<HTMLElement>,
-    private readonly renderer: Renderer2
-  ) {
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly renderer = inject(Renderer2);
+
+  constructor() {
     this.renderer.addClass(this.el.nativeElement, 'd-flex-row')
     this.renderer.setStyle(this.el.nativeElement, 'transition', 'margin-left 0.5s')
   }

@@ -1,27 +1,27 @@
-<ng-container *ngIf="{ current: round.current | async } as $round">
-  <button
-    *ngIf="editable"
-    title="Previous"
-    class="hover-highlight clickable"
-    [disabled]="$round.current === 0"
-    (click)="round.setCurrent($round.current! - 1)"
-  >
-    <i class="bi-caret-left-fill"></i>
-  </button>
-
+@if ({ current: round.current | async }; as $round) {
+  @if (editable()) {
+    <button
+      title="Previous"
+      class="hover-highlight clickable"
+      [disabled]="$round.current === 0"
+      (click)="round.setCurrent($round.current! - 1)"
+      >
+      <i class="bi-caret-left-fill"></i>
+    </button>
+  }
   <div class="round-list flex-fill align-items-stretch">
-    <app-round-names></app-round-names>
+    <app-round-names />
     <div class="fade-left"></div>
     <div class="fade-right"></div>
   </div>
-
-  <button
-    *ngIf="editable"
-    title="Next"
-    class="hover-highlight clickable"
-    [disabled]="$round.current! >= round.count - 1"
-    (click)="round.setCurrent($round.current! + 1)"
-  >
-    <i class="bi-caret-right-fill"></i>
-  </button>
-</ng-container>
+  @if (editable()) {
+    <button
+      title="Next"
+      class="hover-highlight clickable"
+      [disabled]="$round.current! >= round.count - 1"
+      (click)="round.setCurrent($round.current! + 1)"
+      >
+      <i class="bi-caret-right-fill"></i>
+    </button>
+  }
+}

@@ -1,12 +1,14 @@
-<app-button-group
-  *ngIf="guessing.enabled"
-  title="Guesses"
-  class="h-100 w-100"
-  [(selectedValue)]="match.guesses.selected"
->
-  <button
-    *ngFor="let $guess of guessing.previews; index as $index"
-    [buttonGroupItem]="$index"
-    class="guess-item csz-text fs-3"
-  >{{$guess.text}}</button>
-</app-button-group>
+@if (guessing.enabled) {
+  <app-button-group
+    title="Guesses"
+    class="h-100 w-100"
+    [(selectedValue)]="match.guesses.selected"
+    >
+    @for ($guess of guessing.previews; track $guess) {
+      <button
+        [buttonGroupItem]="$index"
+        class="guess-item csz-text fs-3"
+      >{{$guess.text}}</button>
+    }
+  </app-button-group>
+}

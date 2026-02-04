@@ -10,33 +10,45 @@
     <!-- PROFILE -->
     <div class="dropdown">
       <button class="btn btn-light dropdown-toggle mb-3 form-control" type="button" id="profileButton"
-              data-bs-toggle="dropdown" aria-expanded="false">
-        <ng-container [ngTemplateOutlet]="profile" [ngTemplateOutletContext]="{$profile: match.profile}"></ng-container>
+        data-bs-toggle="dropdown" aria-expanded="false">
+        <ng-container [ngTemplateOutlet]="profile" [ngTemplateOutletContext]="{$profile: match.profile}" />
       </button>
       <ul class="dropdown-menu" aria-labelledby="profileButton">
-        <li *ngFor="let $profile of profiles.profiles">
-          <button class="dropdown-item" (click)="match.profile = $profile">
-            <ng-container [ngTemplateOutlet]="profile" [ngTemplateOutletContext]="{$profile}"></ng-container>
-          </button>
-        </li>
+        @for ($profile of profiles.profiles; track $profile) {
+          <li>
+            <button class="dropdown-item" (click)="match.profile = $profile">
+              <ng-container [ngTemplateOutlet]="profile" [ngTemplateOutletContext]="{$profile}" />
+            </button>
+          </li>
+        }
       </ul>
     </div>
 
     <!-- TABS -->
     <ul class="nav nav-tabs nav-fill mb-2">
-      <li class="nav-item" *ngFor="let $tab of tabs">
-        <a class="nav-link"
-           [class.active]="activeTab === $tab"
-           aria-current="page"
-           (click)="activeTab = $tab">
+      @for ($tab of tabs; track $tab) {
+        <li class="nav-item">
+          <a class="nav-link"
+            [class.active]="activeTab === $tab"
+            aria-current="page"
+            (click)="activeTab = $tab">
           {{$tab | titlecase}}</a>
-      </li>
+        </li>
+      }
     </ul>
 
-    <div [ngSwitch]="activeTab">
-      <app-match-teams-editor *ngSwitchCase="'teams'"></app-match-teams-editor>
-      <app-match-rounds-editor *ngSwitchCase="'rounds'"></app-match-rounds-editor>
-      <app-match-profile-editor *ngSwitchCase="'profile'"></app-match-profile-editor>
+    <div>
+      @switch (activeTab) {
+        @case ('teams') {
+          <app-match-teams-editor />
+        }
+        @case ('rounds') {
+          <app-match-rounds-editor />
+        }
+        @case ('profile') {
+          <app-match-profile-editor />
+        }
+      }
     </div>
 
   </div>

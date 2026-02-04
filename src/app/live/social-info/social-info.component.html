@@ -1,8 +1,10 @@
 <div class="d-flex-row gap-3">
-  <ng-container *ngFor="let part of parts">
+  @for (part of parts; track part) {
     <div class="d-flex-row gap-1">
-      <i *ngFor="let logo of part.logos" class="bi-{{logo}}"></i>
+      @for (logo of part.logos; track logo) {
+        <i class="bi-{{logo}}"></i>
+      }
       <span>{{part.text}}</span>
     </div>
-  </ng-container>
+  }
 </div>

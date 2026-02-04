@@ -1,19 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {Match} from "../../config/match";
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-match-rounds-editor',
-  templateUrl: './match-rounds-editor.component.html',
-  host: {
-    class: 'd-flex-column gap-3'
-  }
+    selector: 'app-match-rounds-editor',
+    templateUrl: './match-rounds-editor.component.html',
+    host: {
+        class: 'd-flex-column gap-3'
+    },
+    imports: [ReactiveFormsModule, FormsModule]
 })
 export class MatchRoundsEditorComponent {
+  readonly match = inject(Match);
+
   private _rounds: string
 
-  constructor(
-    readonly match: Match
-  ) {
+  constructor() {
+    const match = this.match;
+
     this._rounds = match.round.names.join("\n")
   }
 

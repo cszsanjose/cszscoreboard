@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {filter, interval, map, Observable, of, timer} from "rxjs";
 import {Cache} from "../config/cache";
 import {PlatformService} from "./platform.service";
@@ -7,17 +7,14 @@ import {PlatformService} from "./platform.service";
   providedIn: 'root'
 })
 export class HeartbeatService {
+  private readonly platform = inject(PlatformService);
+
   private readonly CACHE_KEY = 'heartbeat'
   private readonly REFRESH_TIME = 2000
   private readonly STAGE_AGE = 2 * this.REFRESH_TIME
   private readonly MAX_STALE = 3
 
   private staleCount = 0
-
-  constructor(
-    private readonly platform: PlatformService
-  ) {
-  }
 
   start() {
     if (this.enabled) {

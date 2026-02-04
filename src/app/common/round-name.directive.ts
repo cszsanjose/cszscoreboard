@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Renderer2} from '@angular/core';
+import { Directive, ElementRef, Renderer2, inject } from '@angular/core';
 
 interface RoundNameElementData {
   element: Element
@@ -11,15 +11,13 @@ export interface RoundNameData {
   unselected: RoundNameElementData
 }
 
-@Directive({
-  selector: '[roundName]'
-})
+@Directive({ selector: '[roundName]' })
 export class RoundNameDirective {
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly renderer = inject(Renderer2);
 
-  constructor(
-    private readonly el: ElementRef<HTMLElement>,
-    private readonly renderer: Renderer2
-  ) {
+
+  constructor() {
     this.renderer.addClass(this.el.nativeElement, 'csz-bold-text')
     this.renderer.addClass(this.el.nativeElement, 'clickable')
   }

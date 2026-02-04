@@ -1,8 +1,12 @@
-<app-flyby #roundFlyby *ngIf="!match.profile.disableRoundFlyby">
-  <div class="round-flyby">{{match.round.currentName | async | uppercase}}</div>
-</app-flyby>
+@if (!match.profile.disableRoundFlyby) {
+  <app-flyby #roundFlyby>
+    <div class="round-flyby">{{match.round.currentName | async | uppercase}}</div>
+  </app-flyby>
+}
 
-<app-optional-score *ngIf="match.teams.optionalEnabled"></app-optional-score>
+@if (match.teams.optionalEnabled) {
+  <app-optional-score />
+}
 <img class="logo" alt="logo" src="/assets/logos/{{match.logo}}">
-<app-score></app-score>
-<app-round-names></app-round-names>
+<app-score />
+<app-round-names />

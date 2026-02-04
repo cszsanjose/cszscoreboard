@@ -8,9 +8,9 @@ interface SocialPart {
 }
 
 @Component({
-  selector: 'app-social-info',
-  templateUrl: './social-info.component.html',
-  styleUrls: ['./social-info.component.scss']
+    selector: 'app-social-info',
+    templateUrl: './social-info.component.html',
+    styleUrls: ['./social-info.component.scss']
 })
 export class SocialInfoComponent {
   static readonly ParsePattern = /\([A-Z]{2}\)|\S+/g

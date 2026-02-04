@@ -1,32 +1,34 @@
 <div class="d-flex-row gap-2">
   <select class="form-control fs-4" name="game" [(ngModel)]="game">
     <option [ngValue]="undefined">Select a game...</option>
-    <option *ngFor="let $game of games"
-            [ngValue]="$game">
-      {{$game.listName}}
-    </option>
+    @for ($game of games; track $game) {
+      <option
+        [ngValue]="$game">
+        {{$game.listName}}
+      </option>
+    }
   </select>
 
-  <button *ngIf="this.game" class="btn text-danger fs-4" title="Reset" (click)="reset()">
-    <i class="bi-trash3-fill"></i>
-  </button>
+  @if (this.game) {
+    <button class="btn text-danger fs-4" title="Reset" (click)="reset()">
+      <i class="bi-trash3-fill"></i>
+    </button>
+  }
 </div>
 
-<ng-container *ngIf="this.game as $game">
-  <ng-container *ngIf="$game.vs === 'vs'; else normal">
+@if (this.game; as $game) {
+  @if ($game.vs === 'vs') {
     <div>
       <div class="csz-bg-blue text-white p-2 rounded-2 fs-4 text-center">Blue Team</div>
-      <app-guess-answers-form #blue [guesses]="$game.guesses" [answers]="match.guesses.blue!"></app-guess-answers-form>
+      <app-guess-answers-form #blue [guesses]="$game.guesses" [answers]="match.guesses.blue!" />
     </div>
     <div>
       <div class="csz-bg-red text-white p-2 rounded-2 fs-4 text-center">Red Team</div>
-      <app-guess-answers-form #red [guesses]="$game.guesses" [answers]="match.guesses.red!"></app-guess-answers-form>
+      <app-guess-answers-form #red [guesses]="$game.guesses" [answers]="match.guesses.red!" />
     </div>
-  </ng-container>
-
-  <ng-template #normal>
+  } @else {
     <app-guess-answers-form #answers [guesses]="$game.guesses"
-                            [answers]="match.guesses.answers!"></app-guess-answers-form>
-  </ng-template>
-</ng-container>
+    [answers]="match.guesses.answers!" />
+  }
+}
 

@@ -1,4 +1,4 @@
-import {ErrorHandler, Injectable, NgZone} from '@angular/core';
+import { ErrorHandler, Injectable, NgZone, inject } from '@angular/core';
 import {fromEvent} from "rxjs";
 import {StackLine, StackParser} from "./common/stack-parser";
 import {SourceMapper} from "./common/source-mapper";
@@ -29,14 +29,14 @@ interface Diagnostics {
   providedIn: 'root'
 })
 export class DiagnosticService implements ErrorHandler {
+  private readonly zone = inject(NgZone);
+  private readonly router = inject(Router);
+
   private readonly STORAGE_KEY = '__diagnostics'
   private readonly RELOAD_KEY = '__diagnostics:reload'
   private readonly MAX_ERRORS = 40
 
-  constructor(
-    private readonly zone: NgZone,
-    private readonly router: Router
-  ) {
+  constructor() {
     window.addEventListener('error', it => this.logErrorEvent(it))
     window.addEventListener('unhandledrejection', it => this.logPromiseRejection(it))
 

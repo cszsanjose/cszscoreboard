@@ -5,21 +5,22 @@
 
 <div class="dropdown">
   <button class="btn btn-light dropdown-toggle form-control" type="button" id="profileLogo"
-          data-bs-toggle="dropdown" aria-expanded="false">
-    <ng-container
-      *ngIf="selectedIcon; else noIcon"
-      [ngTemplateOutlet]="logo"
-      [ngTemplateOutletContext]="{$logo: selectedIcon}"
-    ></ng-container>
-    <ng-template #noIcon>
+    data-bs-toggle="dropdown" aria-expanded="false">
+    @if (selectedIcon()) {
+      <ng-container [ngTemplateOutlet]="logo"
+        [ngTemplateOutletContext]="{$logo: selectedIcon()}"
+       />
+    } @else {
       None
-    </ng-template>
+    }
   </button>
   <ul class="dropdown-menu" aria-labelledby="profileLogo">
-    <li *ngFor="let $logo of icons">
-      <button class="dropdown-item" (click)="setIcon($logo)">
-        <ng-container [ngTemplateOutlet]="logo" [ngTemplateOutletContext]="{$logo}"></ng-container>
-      </button>
-    </li>
+    @for ($logo of icons(); track $logo) {
+      <li>
+        <button class="dropdown-item" (click)="selectedIcon.set($logo)">
+          <ng-container [ngTemplateOutlet]="logo" [ngTemplateOutletContext]="{$logo}" />
+        </button>
+      </li>
+    }
   </ul>
 </div>

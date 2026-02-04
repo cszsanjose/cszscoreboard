@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject, interval, retry, Subscription} from "rxjs";
+import { NgClass, AsyncPipe, DecimalPipe } from '@angular/common';
 
 interface TimeInfo {
   clock?: Date
@@ -7,12 +8,13 @@ interface TimeInfo {
 }
 
 @Component({
-  selector: 'app-match-clock',
-  templateUrl: './match-clock.component.html',
-  styleUrls: ['./match-clock.component.scss'],
-  host: {
-    class: 'd-flex-row gap-2 text-nowrap'
-  }
+    selector: 'app-match-clock',
+    templateUrl: './match-clock.component.html',
+    styleUrls: ['./match-clock.component.scss'],
+    host: {
+        class: 'd-flex-row gap-2 text-nowrap'
+    },
+    imports: [NgClass, AsyncPipe, DecimalPipe]
 })
 export class MatchClockComponent implements OnInit, OnDestroy {
   readonly timeInfo = new BehaviorSubject<TimeInfo>({clock: new Date()})

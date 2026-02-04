@@ -1,12 +1,12 @@
-import {Directive, ElementRef} from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[fullScreenTarget]',
   standalone: true
 })
 export class FullScreenTargetDirective {
-  constructor(readonly element: ElementRef) {
-  }
+  readonly element = inject(ElementRef);
+
 
   get allowed() {
     return document.fullscreenEnabled

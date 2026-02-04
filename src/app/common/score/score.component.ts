@@ -1,26 +1,24 @@
-import {Component, HostBinding, Input} from '@angular/core';
+import { Component, HostBinding, inject, input } from '@angular/core';
 import {Match} from "../../config/match";
 import {Team} from "../../config/team";
 import {InputService} from "../input.service";
-import {TitleCasePipe} from "@angular/common";
+import { TitleCasePipe, NgTemplateOutlet } from "@angular/common";
 
 @Component({
-  selector: 'app-score',
-  templateUrl: './score.component.html',
-  styleUrls: ['./score.component.scss'],
-  providers: [
-    { provide: TitleCasePipe, useClass: TitleCasePipe }
-  ]
+    selector: 'app-score',
+    templateUrl: './score.component.html',
+    styleUrls: ['./score.component.scss'],
+    providers: [
+        { provide: TitleCasePipe, useClass: TitleCasePipe }
+    ],
+    imports: [NgTemplateOutlet]
 })
 export class ScoreComponent {
-  @Input() editable: boolean = false
+  readonly match = inject(Match);
+  private readonly inputService = inject(InputService);
+  private readonly titleCase = inject(TitleCasePipe);
 
-  constructor(
-    public readonly match: Match,
-    private readonly inputService: InputService,
-    private readonly titleCase: TitleCasePipe
-  ) {
-  }
+  readonly editable = input<boolean>(false);
 
   editScore(team: Team) {
     const teamName = this.titleCase.transform(team.type)
@@ -38,7 +36,7 @@ export class ScoreComponent {
 
   @HostBinding('class.editable')
   get editableClass() {
-    return this.editable
+    return this.editable()
   }
 
   @HostBinding('class.optional')

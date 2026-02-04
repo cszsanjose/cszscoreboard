@@ -1,12 +1,14 @@
-<ng-container *ngIf="slide as $slide">
+@if (slide; as $slide) {
   <div class="heading csz-bold-text">{{$slide.title}}</div>
-
   <div class="body flex-fill">
-    <div
-      *ngFor="let $part of $slide.parts"
-      [ngClass]="partClasses($part)"
-    >
-      <div *ngFor="let $answer of $part.answers" class="guess" [innerHTML]="$answer"></div>
-    </div>
+    @for ($part of $slide.parts; track $part) {
+      <div
+        [ngClass]="partClasses($part)"
+        >
+        @for ($answer of $part.answers; track $answer) {
+          <div class="guess" [innerHTML]="$answer"></div>
+        }
+      </div>
+    }
   </div>
-</ng-container>
+}

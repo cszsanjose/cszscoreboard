@@ -9,26 +9,36 @@
       <button buttonGroupItem="scoreboard" title="Scoreboard" class="p-2">
         <img src="/assets/scoreboard.png" class="w-100 h-100 image-cover rounded" alt="Scoreboard">
       </button>
-      <button buttonGroupItem="guesses" title="Guess" *ngIf="viewAvailable('guesses')">
-        <img src="/assets/guess.png" class="w-100 h-100 image-fit p-2" alt="Guess">
-      </button>
-      <button buttonGroupItem="themes" title="Themes" *ngIf="viewAvailable('themes')">
-        <i class="bi-card-image"></i>
-      </button>
+      @if (viewAvailable('guesses')) {
+        <button buttonGroupItem="guesses" title="Guess">
+          <img src="/assets/guess.png" class="w-100 h-100 image-fit p-2" alt="Guess">
+        </button>
+      }
+      @if (viewAvailable('themes')) {
+        <button buttonGroupItem="themes" title="Themes">
+          <i class="bi-card-image"></i>
+        </button>
+      }
     </app-button-group>
 
     <div class="flex-fill"></div>
 
-    <app-match-clock></app-match-clock>
+    <app-match-clock />
   </div>
 
-  <app-score [editable]="true"></app-score>
-  <ng-container [ngSwitch]="match.activeView">
-    <app-theme-slide-selector *ngSwitchCase="'themes'"></app-theme-slide-selector>
-    <app-guess-selector *ngSwitchDefault></app-guess-selector>
-  </ng-container>
-  <app-rounds [editable]="true"></app-rounds>
+  <app-score [editable]="true" />
+  @switch (match.activeView) {
+    @case ('themes') {
+      <app-theme-slide-selector />
+    }
+    @default {
+      <app-guess-selector />
+    }
+  }
+  <app-rounds [editable]="true" />
 </div>
 
-<app-sidebar></app-sidebar>
-<app-profile-picker *ngIf="!match.profileSelected"></app-profile-picker>
+<app-sidebar />
+@if (!match.profileSelected) {
+  <app-profile-picker />
+}

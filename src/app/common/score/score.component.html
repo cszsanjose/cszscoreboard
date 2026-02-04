@@ -1,7 +1,7 @@
 <ng-template #team let-$team let-$edit="edit">
   <div class="team csz-bg-{{$team.type}}">
     <div class="score w-100">
-      <ng-container *ngIf="editable">
+      @if (editable()) {
         <!-- DECREMENT SCORE -->
         <button class="score-button btn hover-highlight" (click)="$team.score = $team.score - 1">
           <i class="bi-dash-circle"></i>
@@ -14,13 +14,13 @@
         <button class="score-button btn hover-highlight" (click)="$team.score = $team.score + 1">
           <i class="bi-plus-circle"></i>
         </button>
-      </ng-container>
+      }
 
-      <ng-container *ngIf="!editable">
+      @if (!editable()) {
         <div class="score-value csz-bold-text">
           {{$team.score}}
         </div>
-      </ng-container>
+      }
     </div>
 
     <div class="team-name csz-bold-text">
@@ -29,16 +29,14 @@
   </div>
 </ng-template>
 
-<ng-container
-  [ngTemplateOutlet]="team"
+<ng-container [ngTemplateOutlet]="team"
   [ngTemplateOutletContext]="{$implicit: match.teams.blue}"
-></ng-container>
-<ng-container
-  [ngTemplateOutlet]="team"
+ />
+<ng-container [ngTemplateOutlet]="team"
   [ngTemplateOutletContext]="{$implicit: match.teams.red}"
-></ng-container>
-<ng-container
-  *ngIf="editable && match.teams.optionalEnabled"
-  [ngTemplateOutlet]="team"
-  [ngTemplateOutletContext]="{$implicit: match.teams.optional}"
-></ng-container>
+ />
+@if (editable() && match.teams.optionalEnabled) {
+  <ng-container [ngTemplateOutlet]="team"
+    [ngTemplateOutletContext]="{$implicit: match.teams.optional}"
+   />
+}

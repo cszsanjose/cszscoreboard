@@ -1,21 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {Match} from "../../config/match";
 import {Profiles} from "../../config/profiles";
 import {TeamLogo} from "../../config/profile";
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { IconSelectorComponent } from '../../common/icon-selector/icon-selector.component';
 
 @Component({
-  selector: 'app-match-teams-editor',
-  templateUrl: './match-teams-editor.component.html',
-  host: {
-    class: 'd-flex-column gap-3'
-  }
+    selector: 'app-match-teams-editor',
+    templateUrl: './match-teams-editor.component.html',
+    host: {
+        class: 'd-flex-column gap-3'
+    },
+    imports: [ReactiveFormsModule, FormsModule, IconSelectorComponent]
 })
 export class MatchTeamsEditorComponent {
-  constructor(
-    readonly match: Match,
-    readonly profiles: Profiles
-  ) {
-  }
+  readonly match = inject(Match);
+  readonly profiles = inject(Profiles);
+
 
   get blueLogo(): string | undefined {
     return this.match.profile.teams.blueLogp

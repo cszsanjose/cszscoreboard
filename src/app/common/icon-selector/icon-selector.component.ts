@@ -1,18 +1,14 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, input, model, output} from '@angular/core';
+import {NgTemplateOutlet, TitleCasePipe} from '@angular/common';
 
 @Component({
-  selector: 'app-icon-selector',
-  templateUrl: './icon-selector.component.html',
-  styles: [
-  ]
+    selector: 'app-icon-selector',
+    templateUrl: './icon-selector.component.html',
+    styles: [],
+    imports: [NgTemplateOutlet, TitleCasePipe]
 })
 export class IconSelectorComponent {
-  @Input() selectedIcon?: string
-  @Output() selectedIconChange = new EventEmitter<string>()
-  @Input() icons!: string[]
-
-  setIcon(value: string) {
-    this.selectedIcon = value
-    this.selectedIconChange.emit(value)
-  }
+  readonly selectedIcon = model<string>();
+  readonly selectedIconChange = output<string>();
+  readonly icons = input.required<string[]>();
 }

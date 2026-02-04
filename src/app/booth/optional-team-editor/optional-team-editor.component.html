@@ -6,21 +6,21 @@
     required
     maxlength="20"
     [(ngModel)]="match.teams.optional.name"
-  >
+    >
 </div>
 
-<button
-  *ngIf="!match.teams.optionalEnabled; else disableButton"
-  type="button"
-  class="btn btn-success"
-  [disabled]="teamName.invalid"
-  (click)="enable()"
->Show</button>
-
-<ng-template #disableButton>
+@if (!match.teams.optionalEnabled) {
+  <button
+    type="button"
+    class="btn btn-success"
+    [disabled]="teamName.invalid"
+    (click)="enable()"
+  >Show</button>
+} @else {
   <button
     type="button"
     class="btn btn-danger"
     (click)="disable()"
   >Hide</button>
-</ng-template>
+}
+

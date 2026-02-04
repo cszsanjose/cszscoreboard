@@ -1,42 +1,31 @@
-import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject, viewChild, viewChildren } from '@angular/core';
 import {Match} from "../../config/match";
 import {RoundNameData, RoundNameDirective} from "../round-name.directive";
 import {asyncScheduler, fromEvent, Subscription, tap, throttleTime} from "rxjs";
 import {RoundNamesDirective} from "../round-names.directive";
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-round-names',
-  templateUrl: './round-names.component.html',
-  styleUrls: ['./round-names.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-round-names',
+    templateUrl: './round-names.component.html',
+    styleUrls: ['./round-names.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RoundNamesDirective, RoundNameDirective, AsyncPipe]
 })
 export class RoundNamesComponent implements OnInit, OnDestroy, AfterViewChecked {
+  readonly match = inject(Match);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   readonly DEBUG = false
 
-  @ViewChild(RoundNamesDirective) private roundNameContainer!: RoundNamesDirective
-  @ViewChildren(RoundNameDirective) roundNames?: QueryList<RoundNameDirective>
+  private readonly roundNameContainer = viewChild.required(RoundNamesDirective);
+  readonly roundNames = viewChildren(RoundNameDirective);
 
   nameData?: RoundNameData[]
   nameGap: number = 0
   nameChange?: Subscription
   selectChange?: Subscription
   resizeEvent?: Subscription
-
-  constructor(
-    public readonly match: Match,
-    private readonly changeDetectorRef: ChangeDetectorRef
-  ) {
-  }
 
   get round() {
     return this.match.round
@@ -74,10 +63,11 @@ export class RoundNamesComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   private updateData() {
-    if (!this.roundNames) return
+    const roundNames = this.roundNames();
+    if (!roundNames) return
 
-    const containerRect = this.roundNameContainer.rect
-    this.nameData = this.roundNames.map(item => item.getData(containerRect.left))
+    const containerRect = this.roundNameContainer().rect
+    this.nameData = roundNames.map(item => item.getData(containerRect.left))
 
     // Calculate space between names
     if (this.nameData!.length < 2) {
@@ -92,7 +82,7 @@ export class RoundNamesComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   private updateSelected(selected: number = this.round.currentValue) {
-    this.roundNames?.forEach((item, index) => {
+    this.roundNames()?.forEach((item, index) => {
       this.trace(`Name ${index} before: `, item.getData())
       item.selected = index === selected
       this.trace(`Name ${index} after: `, item.getData())
@@ -108,7 +98,8 @@ export class RoundNamesComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   private updateOffset(selected: number = this.round.currentValue) {
-    if (!this.roundNameContainer) return
+    const roundNameContainer = this.roundNameContainer();
+    if (!roundNameContainer) return
 
     let newOffset = 0
 
@@ -120,7 +111,7 @@ export class RoundNamesComponent implements OnInit, OnDestroy, AfterViewChecked 
       }
     })
 
-    this.roundNameContainer.offset = newOffset
+    roundNameContainer.offset = newOffset
   }
 
   private dataFor(index: number, selected: number = this.round.currentValue) {

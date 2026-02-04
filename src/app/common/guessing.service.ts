@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {Match} from "../config/match";
 import {GuessAnswers} from "../config/guess-answers";
 
@@ -20,6 +20,8 @@ interface GuessPreview {
   providedIn: 'root'
 })
 export class GuessingService {
+  private readonly match = inject(Match);
+
   private readonly MAX_PREVIEW_LENGTH = 100
   private readonly NEW_LINE_PATTERN = /[\r\n]+/
   private readonly COMMA_SEPARATOR = ', '
@@ -27,11 +29,6 @@ export class GuessingService {
   private generated: number = 0
   private _slides: GuessSlide[] = []
   private _previews: GuessPreview[] = []
-
-  constructor(
-    private readonly match: Match
-  ) {
-  }
 
   get enabled() {
     return (this.match.guesses.game?.guesses?.length || 0) > 0

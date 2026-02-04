@@ -1,31 +1,33 @@
 <form class="flex-fill overflow-auto d-flex-column gap-3 pe-1 pt-2">
-  <ng-container *ngFor="let $guess of guesses; index as $i">
-    <div *ngIf="$i < form.length">
-      <label
-        *ngIf="$guess.label"
-        class="form-label"
-        [for]="$guess.id"
-      >{{$guess.label}}</label>
-      <ng-container *ngIf="$guess.multiline; else short">
-        <textarea
-          [formControl]="form.controls[$i]"
-          id="{{$guess.id}}"
-          name="{{$guess.id}}"
-          class="guess-text form-control"
-          [placeholder]="$guess.placeholder || 'Enter answer...'"
-          [rows]="$guess.lines || 3"
-        ></textarea>
-      </ng-container>
-      <ng-template #short>
-        <input
-          type="text"
-          [formControl]="form.controls[$i]"
-          id="{{$guess.id}}"
-          name="{{$guess.id}}"
-          class="guess-text form-control"
-          [placeholder]="$guess.placeholder || 'Enter answer...'"
-        >
-      </ng-template>
-    </div>
-  </ng-container>
+  @for ($guess of guesses(); track $guess; let $i = $index) {
+    @if ($i < form.length) {
+      <div>
+        @if ($guess.label) {
+          <label
+            class="form-label"
+            [for]="$guess.id"
+          >{{$guess.label}}</label>
+        }
+        @if ($guess.multiline) {
+          <textarea
+            [formControl]="form.controls[$i]"
+            id="{{$guess.id}}"
+            name="{{$guess.id}}"
+            class="guess-text form-control"
+            [placeholder]="$guess.placeholder || 'Enter answer...'"
+            [rows]="$guess.lines || 3"
+          ></textarea>
+        } @else {
+          <input
+            type="text"
+            [formControl]="form.controls[$i]"
+            id="{{$guess.id}}"
+            name="{{$guess.id}}"
+            class="guess-text form-control"
+            [placeholder]="$guess.placeholder || 'Enter answer...'"
+            >
+        }
+      </div>
+    }
+  }
 </form>
