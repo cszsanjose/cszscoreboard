@@ -1,4 +1,4 @@
-import {Profile, ProfileLogo} from "./profile";
+import {Profile, ProfileLogo, TeamLogo} from "./profile";
 import {Teams} from "./teams";
 import {Rounds} from "./rounds";
 import {Guesses} from "./guesses";
@@ -112,7 +112,7 @@ export class Match extends Cacheable<MatchCache, Profiles> {
 
   delete() {
     this.profiles.delete(this.currentProfile)
-    this.profile = this.profiles.profiles[0]
+    this.profile = this.profiles.profiles()[0]
   }
 
   reset(options: CacheOptions = {}) {
@@ -144,8 +144,12 @@ export class Match extends Cacheable<MatchCache, Profiles> {
       social: this.social,
       rounds: Array.from(this.round.names),
       teams: {
-        blue: this.teams.blue.name,
-        red: this.teams.red.name,
+        leftName: this.teams.blue.name,
+        leftColor: this.teams.blue.color,
+        leftLogo: this.teams.blue.logo as TeamLogo,
+        rightName: this.teams.red.name,
+        rightColor: this.teams.red.color,
+        rightLogo: this.teams.red.logo as TeamLogo,
         optional: this.teams.optional.name
       }
     }
@@ -158,7 +162,7 @@ export class Match extends Cacheable<MatchCache, Profiles> {
 
   protected override init() {
     this.profileSelected = false
-    this.setProfile(this.profiles.profiles[0], {useCache: false})
+    this.setProfile(this.profiles.profiles()[0], {useCache: false})
   }
 
   protected override serialize(): MatchCache {
@@ -174,7 +178,7 @@ export class Match extends Cacheable<MatchCache, Profiles> {
 
     if (data.profileId !== this.profile?.id) {
       const profile = data.profileId ? this.profiles.find(data.profileId) : null
-      this.setProfile(profile || this.profiles.profiles[0], {useCache: true})
+      this.setProfile(profile || this.profiles.profiles()[0], {useCache: true})
     }
 
     this.activeView = data.activeView

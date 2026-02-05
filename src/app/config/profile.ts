@@ -17,11 +17,13 @@ export interface Profile {
   social?: string
   rounds: string[]
   teams: {
-    blue: string
-    blueLogp?: TeamLogo
-    red: string
-    redLogo?: TeamLogo
-    optional: string
+    leftName: string
+    leftLogo?: TeamLogo,
+    leftColor: string,
+    rightName: string
+    rightLogo?: TeamLogo
+    rightColor: string,
+    optional: string,
   }
   disableRoundFlyby?: boolean
   disableTeamFlyby?: boolean

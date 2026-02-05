@@ -4,7 +4,7 @@
   >
   <div class="fs-3 csz-bold-text text-center mb-3">Select Profile</div>
 
-  @for ($profile of match.profiles.profiles; track $profile) {
+  @for ($profile of match.profiles.profiles(); track $profile) {
     <button
       type="button"
       class="btn btn-dark btn-lg text-start border border-light d-flex-row gap-3 px-5 align-items-center"

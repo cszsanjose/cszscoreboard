@@ -19,18 +19,18 @@ export class MatchTeamsEditorComponent {
 
 
   get blueLogo(): string | undefined {
-    return this.match.profile.teams.blueLogp
+    return this.match.profile.teams.leftLogo
   }
 
   set blueLogo(value: string | undefined) {
-    this.match.profile.teams.blueLogp = value as TeamLogo
+    this.match.profile.teams.leftLogo = value as TeamLogo
   }
 
   get redLogo(): string | undefined {
-    return this.match.profile.teams.redLogo
+    return this.match.profile.teams.rightLogo
   }
 
   set redLogo(value: string | undefined) {
-    this.match.profile.teams.redLogo = value as TeamLogo
+    this.match.profile.teams.rightLogo = value as TeamLogo
   }
 }
