@@ -9,14 +9,14 @@ export const builtinProfiles: Profile[] = [
     id: 'wry-vs-dry',
     name: 'Wry vs Dry',
     builtin: true,
-    logo: ProfileLogo.ComedySportz,
+    logo: ProfileLogo.WryVsDry,
     // social: '(FB)(IG)(TW) @cszsanjose',
     rounds: Rounds.default,
     teams: {
       leftName: 'Wry',
-      leftColor: '#666666',
+      leftColor: '#000000',
       rightName: 'Dry',
-      rightColor: '#6600aa',
+      rightColor: '#ffffff',
       optional: 'Alyssa'
     }
   },

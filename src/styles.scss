@@ -38,7 +38,11 @@ body {
   }
 
   --left-team-color: #0b4d82;
+  --left-team-contrast-color: hsl(from var(--left-team-color) h 0% calc(round(calc(abs(60 - mod(h, 120)) / 60)) * 100%));
   --right-team-color: #9a1b20;
+  --right-team-contrast-color: hsl(from var(--right-team-color) h 0% calc(round(min(calc(abs(60 - mod(h, 120)) / 60), calc((100 - l) / 100) )) * 100%) );
+  --optional-team-color: #ffee00;
+  --optional-team-contrast-color: hsl(from var(--optional-team-color) h 0% calc(round(calc(abs(60 - mod(h, 120)) / 60)) * 100%));
 
   input[type=text], input[type=password], textarea {
     user-select: auto;
@@ -60,8 +64,24 @@ body {
   background: var(--left-team-color) !important;
 }
 
+.text-left-team {
+  color: var(--left-team-contrast-color) !important;
+}
+
 .bg-right-team {
   background: var(--right-team-color) !important;
+}
+
+.text-right-team {
+  color: var(--right-team-contrast-color) !important;
+}
+
+.bg-optional-team {
+  background: var(--optional-team-color) !important;
+}
+
+.text-optional-team {
+  color: var(--optional-team-contrast-color) !important;
 }
 
 .heading-text, .heading-bold-text {

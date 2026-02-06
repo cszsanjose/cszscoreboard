@@ -1,7 +1,8 @@
 export enum ProfileLogo {
   ComedySportz = 'comedysportz.png',
   MinorLeague =  'minorleague.png',
-  RecLeague = 'recleague.png'
+  RecLeague = 'recleague.png',
+  WryVsDry = 'wry-vs-dry.png'
 }
 
 export enum TeamLogo {
