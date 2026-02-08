@@ -2,25 +2,15 @@ import {Team} from "./team";
 import {Profile} from "./profile";
 import {CacheOptions} from "./cache";
 
-interface TeamCache {
-  optional: string
-  optionalScore: number
-  optionalEnabled: boolean
-  blue: string
-  blueScore: number
-  red: string
-  redScore: number
-}
-
 export class Teams {
-  readonly red!: Team
-  readonly blue!: Team
+  readonly right!: Team
+  readonly left!: Team
   readonly optional!: Team
 
   constructor(profile: Profile, options: CacheOptions) {
-    this.blue = new Team({name: profile.teams.leftName, type: 'left', logo: profile.teams.leftLogo, color: profile.teams.leftColor}, options)
-    this.red = new Team({name: profile.teams.rightName, type: 'right', logo: profile.teams.rightLogo, color: profile.teams.rightColor}, options)
-    this.optional = new Team({name: profile.teams.optional, type: 'optional', color: '#eedd00'}, options)
+    this.left = new Team({...profile.teams.left, type: 'left'}, options)
+    this.right = new Team({...profile.teams.right, type: 'right'}, options)
+    this.optional = new Team({...profile.teams.optional, type: 'optional'}, options)
   }
 
   get optionalEnabled() {
@@ -32,8 +22,8 @@ export class Teams {
   }
 
   destroy() {
-    this.blue.destroy()
-    this.red.destroy()
+    this.left.destroy()
+    this.right.destroy()
     this.optional.destroy()
   }
 }

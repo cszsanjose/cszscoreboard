@@ -10,6 +10,13 @@ export enum TeamLogo {
   Mirthquakes = 'mirthquakes.png'
 }
 
+export interface ProfileTeam {
+  name: string
+  logo?: TeamLogo
+  color: string
+  textColor: string
+}
+
 export interface Profile {
   id: string
   name: string
@@ -18,13 +25,9 @@ export interface Profile {
   social?: string
   rounds: string[]
   teams: {
-    leftName: string
-    leftLogo?: TeamLogo,
-    leftColor: string,
-    rightName: string
-    rightLogo?: TeamLogo
-    rightColor: string,
-    optional: string,
+    left: ProfileTeam
+    right: ProfileTeam
+    optional: ProfileTeam
   }
   disableRoundFlyby?: boolean
   disableTeamFlyby?: boolean

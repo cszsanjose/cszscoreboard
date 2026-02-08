@@ -37,12 +37,48 @@ body {
     --size-#{$step}: calc(var(--size-base) * #{$step});
   }
 
-  --left-team-color: #0b4d82;
-  --left-team-contrast-color: hsl(from var(--left-team-color) h 0% calc(round(calc(abs(60 - mod(h, 120)) / 60)) * 100%));
-  --right-team-color: #9a1b20;
-  --right-team-contrast-color: hsl(from var(--right-team-color) h 0% calc(round(min(calc(abs(60 - mod(h, 120)) / 60), calc((100 - l) / 100) )) * 100%) );
-  --optional-team-color: #ffee00;
-  --optional-team-contrast-color: hsl(from var(--optional-team-color) h 0% calc(round(calc(abs(60 - mod(h, 120)) / 60)) * 100%));
+  --left-team-bg-color: #0b4d82;
+  --left-team-text-color: white;
+  //--left-team-contrast-color: hsl(
+  //    from var(--left-team-bg-color)
+  //    h
+  //    0%
+  //    calc(
+  //      round(calc(abs(60 - mod(h, 120)) / 60))
+  //      * calc(100 - round(l, 100))
+  //      * 1%
+  //    )
+  //);
+  --right-team-bg-color: #9a1b20;
+  --right-team-text-color: white;
+  //--right-team-contrast-color: hsl(
+  //    from var(--right-team-bg-color)
+  //    h
+  //    0%
+  //    l
+  //);
+  //--right-team-contrast-color: hsl(
+  //    from var(--right-team-bg-color)
+  //    h
+  //    0%
+  //    calc(
+  //      round(calc(abs(60 - mod(h, 120)) / 60))
+  //      * calc(100 - round(l, 100))
+  //      * 1%
+  //    )
+  //);
+  --optional-team-bg-color: #ffee00;
+  --optional-team-text-color: black;
+  //--optional-team-contrast-color: hsl(
+  //    from var(--optional-team-bg-color)
+  //    h
+  //    0%
+  //    calc(
+  //      round(calc(abs(60 - mod(h, 120)) / 60))
+  //      * calc(100 - round(l, 100))
+  //      * 1%
+  //    )
+  //);
 
   input[type=text], input[type=password], textarea {
     user-select: auto;
@@ -61,27 +97,54 @@ body {
 }
 
 .bg-left-team {
-  background: var(--left-team-color) !important;
+  background: var(--left-team-bg-color) !important;
 }
 
 .text-left-team {
-  color: var(--left-team-contrast-color) !important;
+  color: hsl(
+      from var(--left-team-bg-color)
+      h
+      0%
+      calc(
+        round(calc(abs(60 - mod(h, 120)) / 60))
+        * calc(100 - round(l, 100))
+        * 1%
+      )
+  ) !important;
 }
 
 .bg-right-team {
-  background: var(--right-team-color) !important;
+  background: var(--right-team-bg-color) !important;
 }
 
 .text-right-team {
-  color: var(--right-team-contrast-color) !important;
+  color: hsl(
+      from var(--right-team-bg-color)
+      h
+      0%
+      calc(
+        round(calc(abs(60 - mod(h, 120)) / 60))
+        * calc(100 - round(l, 100))
+        * 1%
+      )
+  );
 }
 
 .bg-optional-team {
-  background: var(--optional-team-color) !important;
+  background: var(--optional-team-bg-color) !important;
 }
 
 .text-optional-team {
-  color: var(--optional-team-contrast-color) !important;
+  color: hsl(
+      from var(--optional-team-bg-color)
+      h
+      0%
+      calc(
+        round(calc(abs(60 - mod(h, 120)) / 60))
+        * calc(100 - round(l, 100))
+        * 1%
+      )
+  );
 }
 
 .heading-text, .heading-bold-text {

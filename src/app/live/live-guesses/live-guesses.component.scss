@@ -45,15 +45,15 @@ app-live-guesses {
       padding: var(--size-2);
 
       &.guess-style-blue {
-        background: var(--left-team-color);
+        background: var(--left-team-bg-color);
       }
 
       &.guess-style-red {
-        background: var(--right-team-color);
+        background: var(--right-team-bg-color);
       }
 
       &.guess-style-vs {
-        background: linear-gradient(to right, var(--left-team-color), var(--left-team-color) 50%, var(--right-team-color) 50%, var(--right-team-color));
+        background: linear-gradient(to right, var(--left-team-bg-color), var(--left-team-bg-color) 50%, var(--right-team-bg-color) 50%, var(--right-team-bg-color));
       }
 
       &.long {

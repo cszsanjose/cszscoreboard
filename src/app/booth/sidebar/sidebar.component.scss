@@ -35,8 +35,8 @@
 
     .tab {
       --tab-color: white;
-      --tab-hover-color: var(--left-team-color);
-      --tab-selected-color: rgb(var(--left-team-color), 0.2);
+      --tab-hover-color: var(--left-team-bg-color);
+      --tab-selected-color: rgb(var(--left-team-bg-color), 0.2);
 
       color: var(--tab-color);
       width: 100%;

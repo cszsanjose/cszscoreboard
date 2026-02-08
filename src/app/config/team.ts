@@ -1,22 +1,16 @@
 import {Cacheable} from "./cacheable";
 import {CacheOptions} from "./cache";
-import {TeamLogo} from "./profile";
+import {ProfileTeam, TeamLogo} from "./profile";
 
 export type TeamType = 'left' | 'right' | 'optional'
 
-interface TeamCache {
-  name: string
+interface TeamCache extends ProfileTeam {
   score: number
   enabled: boolean
-  logo?: TeamLogo
-  color: string
 }
 
-interface TeamConstruct {
-  name: string
+interface TeamConstruct extends ProfileTeam {
   type: TeamType
-  color: string
-  logo?: TeamLogo
 }
 
 export class Team extends Cacheable<TeamCache, TeamConstruct> {
@@ -26,6 +20,7 @@ export class Team extends Cacheable<TeamCache, TeamConstruct> {
   private _enabled!: boolean
   private _logo?: TeamLogo
   private _color!: string
+  private _textColor!: string
 
   constructor(info: TeamConstruct, options?: CacheOptions) {
     super(`team-${info.type}`, options, info)
@@ -87,6 +82,15 @@ export class Team extends Cacheable<TeamCache, TeamConstruct> {
     }
   }
 
+  toProfileTeam(): ProfileTeam {
+    return {
+      name: this._name,
+      logo: this._logo,
+      color: this._color,
+      textColor: this._textColor
+    }
+  }
+
   protected override construct(_data?: TeamConstruct) {
     this._enabled = false
   }
@@ -96,15 +100,14 @@ export class Team extends Cacheable<TeamCache, TeamConstruct> {
     this._logo = data.logo
     this._score = 0
     this._color = data.color
+    this._textColor = data.textColor
   }
 
   protected override serialize(): TeamCache {
     return {
-      name: this._name,
+      ...this.toProfileTeam(),
       score: this._score,
-      enabled: this._enabled,
-      logo: this._logo,
-      color: this._color
+      enabled: this._enabled
     }
   }
 
@@ -114,5 +117,6 @@ export class Team extends Cacheable<TeamCache, TeamConstruct> {
     this._enabled = data.enabled
     this._logo = data.logo
     this._color = data.color
+    this._textColor = data.textColor
   }
 }

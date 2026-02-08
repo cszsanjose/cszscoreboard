@@ -76,19 +76,19 @@ export class Match extends Cacheable<MatchCache, Profiles> {
   }
 
   get winningTeam() {
-    const result = this.teams.red.score - this.teams.blue.score
+    const result = this.teams.right.score - this.teams.left.score
 
     if (result > 0) {
-      return this.teams.red
+      return this.teams.right
     } else if (result < 0) {
-      return this.teams.blue
+      return this.teams.left
     } else {
       return null
     }
   }
 
   get hasScore(): boolean {
-    return this.teams.red.score > 0 || this.teams.blue.score > 0
+    return this.teams.right.score > 0 || this.teams.left.score > 0
   }
 
   // private get cached(): MatchCache {
@@ -144,13 +144,9 @@ export class Match extends Cacheable<MatchCache, Profiles> {
       social: this.social,
       rounds: Array.from(this.round.names),
       teams: {
-        leftName: this.teams.blue.name,
-        leftColor: this.teams.blue.color,
-        leftLogo: this.teams.blue.logo as TeamLogo,
-        rightName: this.teams.red.name,
-        rightColor: this.teams.red.color,
-        rightLogo: this.teams.red.logo as TeamLogo,
-        optional: this.teams.optional.name
+        left: this.teams.left.toProfileTeam(),
+        right: this.teams.right.toProfileTeam(),
+        optional: this.teams.optional.toProfileTeam()
       }
     }
   }

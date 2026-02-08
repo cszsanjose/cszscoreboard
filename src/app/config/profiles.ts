@@ -9,7 +9,8 @@ export class Profiles {
   readonly logos: ProfileLogo[] = [
     ProfileLogo.ComedySportz,
     ProfileLogo.MinorLeague,
-    ProfileLogo.RecLeague
+    ProfileLogo.RecLeague,
+    ProfileLogo.WryVsDry,
   ]
 
   readonly teamLogos: TeamLogo[] = [

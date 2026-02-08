@@ -30,10 +30,10 @@
 </ng-template>
 
 <ng-container [ngTemplateOutlet]="team"
-  [ngTemplateOutletContext]="{$implicit: match.teams.blue}"
+  [ngTemplateOutletContext]="{$implicit: match.teams.left}"
  />
 <ng-container [ngTemplateOutlet]="team"
-  [ngTemplateOutletContext]="{$implicit: match.teams.red}"
+  [ngTemplateOutletContext]="{$implicit: match.teams.right}"
  />
 @if (editable() && match.teams.optionalEnabled) {
   <ng-container [ngTemplateOutlet]="team"
